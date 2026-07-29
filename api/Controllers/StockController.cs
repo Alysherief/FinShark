@@ -24,25 +24,25 @@ namespace api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Stock>> GetStock(int id)
+        public async Task<ActionResult<Stock>> GetById([FromRoute] int id)
         {
-            var stock = await _context.Stocks.Include(s => s.Comments).FirstOrDefaultAsync(s => s.Id == id);
+            var stock = await _context.Stocks.FindAsync(id);
 
             if (stock == null)
             {
                 return NotFound();
             }
 
-            return stock;
+            return Ok(stock);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Stock>> PostStock(Stock stock)
-        {
-            _context.Stocks.Add(stock);
-            await _context.SaveChangesAsync();
+        // [HttpPost]
+        // public async Task<ActionResult<Stock>> PostStock(Stock stock)
+        // {
+        //     _context.Stocks.Add(stock);
+        //     await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetStock), new { id = stock.Id }, stock);
-        }
+        //     return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock);
+        // }
     }
 }

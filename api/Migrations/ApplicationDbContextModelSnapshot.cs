@@ -51,6 +51,7 @@ namespace api.Migrations
                     b.ToTable("Comments");
                 });
 
+
             modelBuilder.Entity("api.Models.Stock", b =>
                 {
                     b.Property<int>("Id")
