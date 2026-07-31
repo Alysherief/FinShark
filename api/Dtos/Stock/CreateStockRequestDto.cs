@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos.Stock.Comment;
+using api.Models;
+using api.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using api.Mappers;
+using api.Dtos.Stock;
+
 
 namespace api.Dtos.Stock
 {
-    public class StockDto
+    public class CreateStockRequestDto
     {
-       public int Id { get; set; } 
        public string Symbol { get; set; } = string.Empty;
        public string CompanyName { get; set; } = string.Empty;
        public decimal Purchase { get; set; } 
        public decimal LastDiv { get; set; } 
        public string Industry { get; set; } = string.Empty;
        public long MarketCap { get; set; }
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        public List<CommentDto> Comments { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+       
+      
+      
     }
 }
