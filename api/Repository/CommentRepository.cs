@@ -55,18 +55,24 @@ namespace api.Repository
         }
 
         public async Task<Comment> UpdateAsync(int id, Comment commentModel)
-        {
-            var existingComment = await _context.Comments.FindAsync(id);
+{
+            var existingComment = await _context.Comments
+                .Include(c => c.AppUser)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (existingComment == null)
             {
-#pragma warning disable CS8603 // Possible null reference return.
+        #pragma warning disable CS8603
                 return null;
-#pragma warning restore CS8603 // Possible null reference return.
+        #pragma warning restore CS8603
             }
+
             existingComment.Title = commentModel.Title;
             existingComment.Content = commentModel.Content;
+
             await _context.SaveChangesAsync();
+
             return existingComment;
-        }
+}
     }
 }
