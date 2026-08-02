@@ -85,18 +85,22 @@ namespace api.Controllers
         }
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<Stock?> DeleteAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var stockModel = await _stockRepository.DeleteAsync(id);
-            if (stockModel == null)
-            {
-                return NotFound();
-            }
-            return NoContent();
+            var stock = await _context.Stocks
+                .Include(s => s.Comments)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (stock == null)
+                return null;
+
+            _context.Comments.RemoveRange(stock.Comments);
+
+            _context.Stocks.Remove(stock);
+
+            await _context.SaveChangesAsync();
+
+            return stock;
         }
        
     }
